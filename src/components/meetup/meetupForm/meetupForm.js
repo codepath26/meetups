@@ -1,4 +1,7 @@
 "use client";
+
+import connectDB from "@/dbcong/dbconfig";
+import axios from "axios";
 import { useRef } from "react";
 
 function NewMeetupForm(props) {
@@ -9,6 +12,8 @@ function NewMeetupForm(props) {
 
   function submitHandler(event) {
     event.preventDefault();
+   async function sendData(){
+    try {
 
     const enteredTitle = titleInputRef.current.value;
     const enteredImage = imageInputRef.current.value;
@@ -21,8 +26,15 @@ function NewMeetupForm(props) {
       address: enteredAddress,
       description: enteredDescription,
     };
-
-    props.onAddMeetup(meetupData);
+   
+        await connectDB();
+        const response = await  axios.post('/api/meetups' , meetupData);
+        console.log(response);
+      } catch (error) {
+        console.log(error);   
+      }
+    }
+    sendData();
   }
 
   return (
