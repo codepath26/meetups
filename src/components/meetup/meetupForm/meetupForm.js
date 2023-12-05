@@ -1,6 +1,4 @@
 "use client";
-
-import connectDB from "@/dbcong/dbconfig";
 import axios from "axios";
 import { useRef } from "react";
 
@@ -27,7 +25,8 @@ function NewMeetupForm(props) {
       description: enteredDescription,
     };
    
-        await connectDB();
+
+        console.log("ready")
         const response = await  axios.post('/api/meetups' , meetupData);
         console.log(response);
       } catch (error) {

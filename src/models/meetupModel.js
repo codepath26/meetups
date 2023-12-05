@@ -21,6 +21,6 @@ const meetupSchema = new mongoose.Schema({
 });
 
 // Define the Meetup model
-const Meetup = mongoose.model('Meetup', meetupSchema);
+const Meetup =  mongoose.models.meetups || mongoose.model('meetups', meetupSchema);
 
 export default  Meetup;
