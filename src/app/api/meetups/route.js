@@ -1,29 +1,38 @@
 import Meetup from "@/models/meetupModel";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import connectDB from "@/dbcong/dbconfig";
 
-
-export async function POST(){
+connectDB();
+export async function POST(request) {
   try {
-    const reqBody =await NextRequest.json();
-    const {image,title,address ,description} =reqBody;
-    console.log(reqBody);
-    const newUser = new Meetup({
+    const reqBody = await request.json();
+    console.log("request body", reqBody);
+    const { image, title, address, description } = reqBody;
+    const newMeetup = new Meetup({
       image,
       title,
       address,
       description,
     });
-    const saveduser = await newUser.save();
-    console.log(saveduser);
+    const savedMeetup = await newMeetup.save();
+    console.log("savedMeetups", savedMeetup);
     return NextResponse.json({
-      meddage : "data added succesfully",
-      saveduser,
-    })
-    
+      message: "data added successfully",
+      savedMeetup,
+    });
   } catch (error) {
-    console.log( "this is the error",error)
-     return NextResponse.json({error : error.message},{status :500})
-    
+    console.log("this is the error", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
+}
 
+export async function GET(request){
+  try {
+    const allMeetups = await Meetup.find({});
+    console.log("all the users", allMeetups);
+    return NextResponse.json({ allMeetups }, { status: 201 });
+  } catch (error) {
+    console.log("this is the error", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 }
