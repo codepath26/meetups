@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import MeetupList from "../components/meetup/meetupList/meetup";
 import axios from "axios";
+import Head from "next/head";
 
 export default function Home() {
 const [meetups , setMeetups] = useState([]);
@@ -20,6 +21,15 @@ useEffect(()=>{
   getAllMeetups();
 } ,[]); 
   return (
+  <>
+  <Head>
+    <title>Next Meetups</title>
+    <meta
+    name ='description'
+    content="Browse a huge list of highly active React meetups"
+    />
+  </Head>
   <MeetupList meetups={meetups}/>
+  </>
   )
 }
